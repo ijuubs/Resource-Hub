@@ -36,20 +36,36 @@ export const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => setActiveTab(link.id as any)}
-                className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
-                  activeTab === link.id
-                    ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 shadow-sm'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
-                }`}
-              >
-                {link.icon}
-                <span>{link.label}</span>
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              if (link.id === 'sitemap') {
+                return (
+                  <a
+                    key={link.id}
+                    href="/sitemap.xml"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900"
+                  >
+                    {link.icon}
+                    <span>{link.label}</span>
+                  </a>
+                );
+              }
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => setActiveTab(link.id as any)}
+                  className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all ${
+                    activeTab === link.id
+                      ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 shadow-sm'
+                      : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
+                  }`}
+                >
+                  {link.icon}
+                  <span>{link.label}</span>
+                </button>
+              );
+            })}
           </nav>
 
           {/* Right Action Icons */}
@@ -96,23 +112,40 @@ export const Header: React.FC = () => {
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-zinc-800 bg-zinc-950 p-4 space-y-3">
           <div className="space-y-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setActiveTab(link.id as any);
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-full flex items-center gap-3 rounded-xl p-3 text-xs font-semibold text-left transition-all ${
-                  activeTab === link.id
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
-                }`}
-              >
-                {link.icon}
-                <span>{link.label}</span>
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              if (link.id === 'sitemap') {
+                return (
+                  <a
+                    key={link.id}
+                    href="/sitemap.xml"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full flex items-center gap-3 rounded-xl p-3 text-xs font-semibold text-left transition-all text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                  >
+                    {link.icon}
+                    <span>{link.label}</span>
+                  </a>
+                );
+              }
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => {
+                    setActiveTab(link.id as any);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 rounded-xl p-3 text-xs font-semibold text-left transition-all ${
+                    activeTab === link.id
+                      ? 'bg-indigo-600 text-white'
+                      : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
+                  }`}
+                >
+                  {link.icon}
+                  <span>{link.label}</span>
+                </button>
+              );
+            })}
           </div>
 
           <div className="pt-3 border-t border-zinc-900 grid grid-cols-3 gap-2 text-center text-[11px] font-medium text-zinc-400">

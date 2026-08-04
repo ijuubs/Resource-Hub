@@ -9,7 +9,7 @@ import { ArticleCard } from './components/Articles/ArticleCard';
 import { ArticleDetail } from './components/Articles/ArticleDetail';
 import { ProductCatalog } from './components/Products/ProductCatalog';
 import { AIWorkspace } from './components/AIWorkspace/AIWorkspace';
-import { SitemapViewer } from './components/SEO/SitemapViewer';
+
 import { SchemaMarkup } from './components/SEO/SchemaMarkup';
 import { PrivacyPolicy } from './components/Legal/PrivacyPolicy';
 import { TermsOfService } from './components/Legal/TermsOfService';
@@ -117,11 +117,6 @@ export function App() {
       updateMetaTags({
         title: 'About ResourceHub - Platform Mission & Editorial Standards',
         description: 'Learn about ResourceHub, our team, open-value mission, and quality standards for SaaS tools.',
-      });
-    } else if (activeTab === 'sitemap') {
-      updateMetaTags({
-        title: 'XML Sitemap & Route Inspector - ResourceHub',
-        description: 'Inspect canonical site structure, JSON-LD schemas, and indexable endpoints for Google Search Console.',
       });
     }
   }, [activeTab]);
@@ -285,9 +280,6 @@ export function App() {
         ) : activeTab === 'ai-workspace' ? (
           /* AI Workspace Tab */
           <AIWorkspace />
-        ) : activeTab === 'sitemap' ? (
-          /* Sitemap Inspector Tab */
-          <SitemapViewer />
         ) : activeTab === 'privacy' ? (
           /* Privacy Policy View */
           <PrivacyPolicy />

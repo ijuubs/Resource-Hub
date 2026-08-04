@@ -174,9 +174,9 @@ export const Footer: React.FC = () => {
             <button onClick={() => setActiveTab('terms')} className="hover:text-zinc-300">
               Terms of Service
             </button>
-            <button onClick={() => setActiveTab('sitemap')} className="hover:text-zinc-300">
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300">
               Sitemap.xml
-            </button>
+            </a>
             <button onClick={() => setContactOpen(true)} className="hover:text-zinc-300 text-indigo-400 font-bold">
               Contact Us
             </button>
