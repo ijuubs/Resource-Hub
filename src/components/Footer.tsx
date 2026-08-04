@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="border-t border-zinc-800/80 bg-zinc-950 text-zinc-400 text-xs pt-16 pb-12">
+    <footer className="border-t border-zinc-800/80 bg-zinc-950 text-zinc-400 text-xs pt-16 pb-24 sm:pb-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Col 1 Brand & Value */}

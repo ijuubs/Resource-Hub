@@ -27,7 +27,7 @@ export const CookieConsent: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-50 rounded-2xl border border-zinc-800 bg-zinc-950/95 backdrop-blur-xl p-5 shadow-2xl shadow-black/80 text-xs space-y-3"
+          className="fixed bottom-[80px] left-4 right-4 md:left-auto md:right-4 md:max-w-md z-[60] rounded-2xl border border-zinc-700 bg-zinc-950/95 backdrop-blur-xl p-5 shadow-2xl shadow-black/90 text-xs space-y-3"
         >
           <div className="flex items-start gap-3">
             <div className="rounded-xl bg-indigo-500/10 p-2 text-indigo-400 border border-indigo-500/20 shrink-0">
