@@ -44,12 +44,13 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-import * as admin from 'firebase-admin';
+import { getApps, initializeApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
 
 // Initialize Firebase Admin securely without crashing if credentials are missing
 try {
-  if (!admin.apps.length) {
-    admin.initializeApp();
+  if (!getApps().length) {
+    initializeApp();
   }
 } catch (e) {
   console.error("Firebase Admin initialization failed. Ensure Firestore is configured.");
@@ -68,7 +69,7 @@ app.get("/sitemap.xml", async (req, res) => {
   let dynamicArticleUrls = '';
 
   try {
-    const db = admin.firestore();
+    const db = getFirestore();
     
     // Fetch Resources
     const resourcesSnapshot = await db.collection('resources').get();

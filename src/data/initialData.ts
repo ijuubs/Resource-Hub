@@ -58,6 +58,122 @@ export const INITIAL_CATEGORIES: Category[] = [
 ];
 
 export const INITIAL_RESOURCES: Resource[] = [
+
+  {
+    id: 'res-inv-1',
+    status: 'published',
+    versionHistory: [],
+
+    isFeatured: false,
+    isPremium: false,
+    rating: 5,
+    reviewCount: 1,
+    viewsCount: 120,
+    downloadsCount: 0,
+    faqs: [],
+    createdBy: 'admin',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+
+    title: 'Investment Growth & Compound Interest Calculator',
+    slug: 'investment-growth-compound-interest-calculator',
+    metaDescription: 'Calculate compound interest and visualize your investment growth over time. Perfect for retirement planning and personal finance.',
+    type: 'calculator',
+    category: 'calculators',
+    tags: ['Personal Finance', 'Investing', 'Retirement', 'Compound Interest'],
+    featuredImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80',
+    shortSummary: 'Visualize how your investments grow over time with the power of compound interest.',
+    interactiveConfig: {
+      toolType: 'investment-calculator',
+      defaultState: {
+      initialPrincipal: 10000,
+      monthlyContribution: 500,
+      years: 15,
+      returnRate: 8,
+      },
+    },
+    contentBlocks: [
+      { id: 'b1', type: 'heading', content: 'Why Use a Compound Interest Calculator?' },
+      { id: 'b2', type: 'paragraph', content: 'It helps you set realistic financial goals and see the importance of starting early. Even small monthly contributions can grow into a massive portfolio over decades.' }
+    ],
+  },
+  {
+    id: 'res-mort-1',
+    status: 'published',
+    versionHistory: [],
+
+    isFeatured: false,
+    isPremium: false,
+    rating: 5,
+    reviewCount: 1,
+    viewsCount: 120,
+    downloadsCount: 0,
+    faqs: [],
+    createdBy: 'admin',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+
+    title: 'Mortgage & Loan Payoff Calculator',
+    slug: 'mortgage-loan-payoff-calculator',
+    metaDescription: 'Estimate your monthly mortgage payments and total interest with our interactive Mortgage Payoff Calculator.',
+    type: 'calculator',
+    category: 'calculators',
+    tags: ['Real Estate', 'Mortgage', 'Personal Finance', 'Loan'],
+    featuredImage: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80',
+    shortSummary: 'Estimate your monthly mortgage payments, including principal and interest breakdown.',
+    interactiveConfig: {
+      toolType: 'mortgage-calculator',
+      defaultState: {
+      homePrice: 400000,
+      downPaymentPct: 20,
+      loanTerm: 30,
+      interestRate: 6.5,
+      },
+    },
+    contentBlocks: [
+      { id: 'b1', type: 'heading', content: 'Understanding Your Mortgage Payment' },
+      { id: 'b2', type: 'paragraph', content: 'A significant portion of your early mortgage payments goes entirely towards interest. Play around with the interest rate and down payment to see how it affects your monthly cash flow.' }
+    ],
+  },
+  {
+    id: 'res-roi-1',
+    status: 'published',
+    versionHistory: [],
+
+    isFeatured: false,
+    isPremium: false,
+    rating: 5,
+    reviewCount: 1,
+    viewsCount: 120,
+    downloadsCount: 0,
+    faqs: [],
+    createdBy: 'admin',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+
+    title: 'Website CRO & ROI Calculator',
+    slug: 'website-cro-roi-calculator',
+    metaDescription: 'Calculate the potential revenue growth from optimizing your website conversion rate (CRO). Free interactive tool.',
+    type: 'calculator',
+    category: 'calculators',
+    tags: ['Marketing', 'CRO', 'ROI', 'E-commerce'],
+    featuredImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    shortSummary: 'See how a small bump in conversion rate can drastically increase your revenue.',
+    interactiveConfig: {
+      toolType: 'website-roi-calculator',
+      defaultState: {
+      monthlyVisitors: 10000,
+      currentConvRate: 1.5,
+      targetConvRate: 2.5,
+      aov: 100,
+      },
+    },
+    contentBlocks: [
+      { id: 'b1', type: 'heading', content: 'Why CRO Matters' },
+      { id: 'b2', type: 'paragraph', content: 'Instead of pouring more money into ads to get traffic, optimizing your existing traffic is often the highest ROI activity for any e-commerce or SaaS business.' }
+    ],
+  },
+
   {
     id: 'res-1',
     title: 'SaaS MRR, Churn & LTV Calculator',

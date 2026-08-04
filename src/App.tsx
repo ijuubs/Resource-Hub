@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useApp } from './context/AppContext';
 import { Header } from './components/Header';
+import { TopBanner } from './components/ads/TopBanner';
+import { InContentBanner } from './components/ads/InContentBanner';
+import { NativeAd } from './components/ads/NativeAd';
+import { StickyFooterBanner } from './components/ads/StickyFooterBanner';
 import { Footer } from './components/Footer';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { ResourceCard } from './components/Resources/ResourceCard';
@@ -148,6 +152,8 @@ export function App() {
             transition={{ duration: 0.3 }}
             className="space-y-8 pb-16"
           >
+            <TopBanner className="mb-8" />
+
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-2">
                 <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest">
@@ -222,9 +228,13 @@ export function App() {
                 transition={{ duration: 0.25 }}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {filteredResources.map((res) => (
-                  <ResourceCard key={res.id} resource={res} />
+                {filteredResources.map((res, idx) => (
+                  <React.Fragment key={res.id}>
+                    <ResourceCard resource={res} />
+                    {idx === 2 && <InContentBanner className="col-span-full my-4" />}
+                  </React.Fragment>
                 ))}
+                <NativeAd className="col-span-full mt-4" />
               </motion.div>
             )}
           </motion.div>
@@ -237,6 +247,8 @@ export function App() {
             transition={{ duration: 0.3 }}
             className="space-y-8 pb-16"
           >
+            <TopBanner className="mb-8" />
+
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-2">
                 <span className="text-xs font-mono text-pink-400 uppercase tracking-widest">Growth Teardowns & Guides</span>
@@ -268,9 +280,13 @@ export function App() {
                 transition={{ duration: 0.25 }}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {articles.map((art) => (
-                  <ArticleCard key={art.id} article={art} />
+                {articles.map((art, idx) => (
+                  <React.Fragment key={art.id}>
+                    <ArticleCard article={art} />
+                    {idx === 2 && <InContentBanner className="col-span-full my-4" />}
+                  </React.Fragment>
                 ))}
+                <NativeAd className="col-span-full mt-4" />
               </motion.div>
             )}
           </motion.div>
@@ -349,7 +365,7 @@ export function App() {
             </div>
 
             {/* Ad Leaderboard Placeholder */}
-            <AdPlaceholder format="leaderboard" />
+            <TopBanner />
 
             {/* Featured Interactive Tools */}
             <div className="space-y-6">
@@ -377,6 +393,8 @@ export function App() {
                 </div>
               )}
             </div>
+
+            <InContentBanner />
 
             {/* Premium Upgrade Banner */}
             <PremiumBanner onUpgrade={() => setActiveTab('products')} />
@@ -416,6 +434,8 @@ export function App() {
               )}
             </div>
 
+            <NativeAd />
+
             {/* Newsletter Subscription CTA */}
             <NewsletterCTA />
           </motion.div>
@@ -427,6 +447,7 @@ export function App() {
 
       {/* Sticky GDPR & AdSense Cookie Consent Banner */}
       <CookieConsent />
+      <StickyFooterBanner />
     </div>
   );
 }

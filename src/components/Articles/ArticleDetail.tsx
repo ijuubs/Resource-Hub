@@ -5,6 +5,9 @@ import { updateMetaTags } from '../../utils/seo';
 import { ResourceCard } from '../Resources/ResourceCard';
 import { SchemaVisualizer } from '../SEO/SchemaVisualizer';
 import { NewsletterCTA } from '../Monetization/NewsletterCTA';
+import { TopBanner } from '../ads/TopBanner';
+import { InContentBanner } from '../ads/InContentBanner';
+import { NativeAd } from '../ads/NativeAd';
 import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen, Check } from 'lucide-react';
 
 interface ArticleDetailProps {
@@ -37,6 +40,8 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ article }) => {
         <ArrowLeft className="w-4 h-4" />
         <span>Back to Articles & Guides</span>
       </button>
+
+      <TopBanner />
 
       {/* Hero Header */}
       <div className="space-y-4">
@@ -90,28 +95,44 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ article }) => {
 
       {/* Article Body */}
       <div className="space-y-6 text-zinc-200 leading-relaxed text-base">
-        {article.contentBlocks.map((block) => {
+        {article.contentBlocks.map((block, idx) => {
+          let adElement = null;
+          // Insert ad after introduction (idx 1), and then every ~4 blocks, max 3 in content
+          if (idx === 1 || idx === 5 || idx === 9) {
+            adElement = <InContentBanner key={`ad-${idx}`} className="my-8" />;
+          }
+
+          let blockElement = null;
           if (block.type === 'heading') {
-            return (
+            blockElement = (
               <h2 key={block.id} className="text-2xl font-bold text-white tracking-tight pt-4">
                 {block.content}
               </h2>
             );
-          }
-          if (block.type === 'callout') {
-            return (
+          } else if (block.type === 'callout') {
+            blockElement = (
               <div key={block.id} className="rounded-xl bg-indigo-950/40 border border-indigo-500/30 p-5 text-sm text-indigo-200 font-medium">
                 {block.content}
               </div>
             );
+          } else {
+            blockElement = (
+              <p key={block.id} className="text-zinc-300">
+                {block.content}
+              </p>
+            );
           }
+
           return (
-            <p key={block.id} className="text-zinc-300">
-              {block.content}
-            </p>
+            <React.Fragment key={block.id}>
+              {blockElement}
+              {adElement}
+            </React.Fragment>
           );
         })}
       </div>
+
+      <NativeAd />
 
       {/* Linked Resources Widget */}
       {linkedResources.length > 0 && (

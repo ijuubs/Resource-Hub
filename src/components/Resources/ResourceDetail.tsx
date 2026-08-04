@@ -1,3 +1,6 @@
+import { InvestmentGrowthCalculator } from './InteractiveRunners/InvestmentGrowthCalculator';
+import { MortgageCalculator } from './InteractiveRunners/MortgageCalculator';
+import { WebsiteROICalculator } from './InteractiveRunners/WebsiteROICalculator';
 import React, { useEffect } from 'react';
 import { Resource } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -13,8 +16,13 @@ import { ChecklistTool } from './InteractiveRunners/ChecklistTool';
 import { AffiliateBox } from '../Monetization/AffiliateBox';
 import { AdPlaceholder } from '../Monetization/AdPlaceholder';
 import { SchemaVisualizer } from '../SEO/SchemaVisualizer';
+import { TopBanner } from '../ads/TopBanner';
+import { InContentBanner } from '../ads/InContentBanner';
+import { SidebarBanner } from '../ads/SidebarBanner';
+import { NativeAd } from '../ads/NativeAd';
 import {
   ArrowLeft,
+
   Bookmark,
   Star,
   Download,
@@ -51,6 +59,12 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
   const renderRunner = () => {
     const toolType = resource.interactiveConfig?.toolType;
     switch (toolType) {
+      case 'investment-calculator':
+        return <InvestmentGrowthCalculator initialConfig={resource.interactiveConfig} />;
+      case 'mortgage-calculator':
+        return <MortgageCalculator initialConfig={resource.interactiveConfig} />;
+      case 'website-roi-calculator':
+        return <WebsiteROICalculator initialConfig={resource.interactiveConfig} />;
       case 'mrr-calculator':
         return <SaaSMRRCalculator initialConfig={resource.interactiveConfig} />;
       case 'freelance-calculator':
@@ -82,7 +96,8 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
   const relatedList = resources.filter((r) => r.id !== resource.id).slice(0, 2);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-16">
+    <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_160px] gap-8 pb-16">
+      <div className="space-y-8">
       {/* Navigation Breadcrumb */}
       <button
         onClick={() => setActiveTab('resources')}
@@ -166,7 +181,7 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
       </div>
 
       {/* Ad Placement */}
-      <AdPlaceholder format="leaderboard" />
+      <TopBanner />
 
       {/* High-Density Editorial & Strategic Breakdown Section (AdSense Compliance) */}
       <div className="space-y-8 rounded-2xl border border-zinc-800/80 bg-zinc-950 p-6 sm:p-8">
@@ -203,6 +218,8 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
             );
           })}
         </div>
+
+        <InContentBanner />
 
         {/* Formulas & Calculations Breakdown (High Value Value-Add) */}
         <div className="space-y-4 rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
@@ -329,6 +346,8 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
         </div>
       )}
 
+      <NativeAd />
+
       {/* FAQs Accordion */}
       {resource.faqs && resource.faqs.length > 0 && (
         <div className="space-y-4 rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
@@ -378,6 +397,10 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
           url: resource.canonicalUrl || `https://resourcehub.dev/resources/${resource.slug}`,
         }}
       />
+      </div>
+      <div className="hidden lg:block">
+        <SidebarBanner />
+      </div>
     </div>
   );
 };
