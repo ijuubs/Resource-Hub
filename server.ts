@@ -44,6 +44,102 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// Search Engine SEO & Google Search Console Endpoints
+app.get("/sitemap.xml", (req, res) => {
+  const host = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
+  const rawProto = (req.headers['x-forwarded-proto'] as string) || 'https';
+  const proto = rawProto.split(',')[0].trim();
+  const baseUrl = `${proto}://${host}`;
+  const today = new Date().toISOString().split('T')[0];
+
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=resources</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=articles</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=products</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=ai-workspace</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=privacy</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=terms</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/?tab=about</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>`;
+
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.status(200).send(sitemapXml.trim());
+});
+
+app.get("/robots.txt", (req, res) => {
+  const host = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
+  const rawProto = (req.headers['x-forwarded-proto'] as string) || 'https';
+  const proto = rawProto.split(',')[0].trim();
+  const baseUrl = `${proto}://${host}`;
+
+  const robotsTxt = `# Allow all search engine crawlers and Googlebot
+User-agent: *
+Allow: /
+
+# Google AdSense Crawler
+User-agent: Mediapartners-Google
+Allow: /
+
+# Sitemap Index
+Sitemap: ${baseUrl}/sitemap.xml
+`;
+
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.status(200).send(robotsTxt.trim());
+});
+
+app.get("/ads.txt", (req, res) => {
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.sendFile(path.join(process.cwd(), "public", "ads.txt"));
+});
+
+app.get("/google9b7949553276ccfd.html", (req, res) => {
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.send("google-site-verification: google9b7949553276ccfd.html");
+});
+
 // AI Generation Endpoint (Resource Generator, Article Writer, Social, Email, Prompts, etc.)
 app.post("/api/ai/generate", async (req, res) => {
   try {
