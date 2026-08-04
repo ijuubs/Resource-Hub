@@ -12,6 +12,8 @@ import { ProductCatalog } from './components/Products/ProductCatalog';
 import { AIWorkspace } from './components/AIWorkspace/AIWorkspace';
 import { AdminDashboard } from './components/Admin/AdminDashboard';
 import { SitemapViewer } from './components/SEO/SitemapViewer';
+import { SchemaMarkup } from './components/SEO/SchemaMarkup';
+import { updateMetaTags } from './utils/seo';
 import { NewsletterCTA } from './components/Monetization/NewsletterCTA';
 import { AffiliateBox } from './components/Monetization/AffiliateBox';
 import { AdPlaceholder } from './components/Monetization/AdPlaceholder';
@@ -73,8 +75,40 @@ export function App() {
     return true;
   });
 
+  React.useEffect(() => {
+    if (activeTab === 'home') {
+      updateMetaTags({
+        title: 'ResourceHub | AI SaaS Tools & Digital Resource Directory',
+        description: 'Explore 50+ SaaS calculators, prompt generators, Notion operating systems, and developer playbooks.',
+      });
+    } else if (activeTab === 'resources') {
+      updateMetaTags({
+        title: 'Interactive SaaS Toolkits & Calculators Directory - ResourceHub',
+        description: 'Access 50+ interactive financial forecasters, prompt generators, Notion operating systems, and developer checklists.',
+      });
+    } else if (activeTab === 'articles') {
+      updateMetaTags({
+        title: 'SaaS Growth Playbooks & Educational Guides - ResourceHub',
+        description: 'In-depth articles covering churn reduction, financial unit economics, cold outreach, and AI prompt engineering.',
+      });
+    } else if (activeTab === 'products') {
+      updateMetaTags({
+        title: 'Digital Products Store & Founder Toolkits - ResourceHub',
+        description: 'Download production-ready Notion operating systems, financial spreadsheets, and prompt libraries.',
+      });
+    } else if (activeTab === 'ai-workspace') {
+      updateMetaTags({
+        title: 'AI Prompt Engineering Studio - ResourceHub',
+        description: 'Test, optimize, and generate AI prompts for Gemini, GPT-4, and Claude models.',
+      });
+    }
+  }, [activeTab]);
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+      {/* Dynamic JSON-LD Structured Data Schema Markup */}
+      <SchemaMarkup />
+
       {/* Navigation Header */}
       <Header />
 

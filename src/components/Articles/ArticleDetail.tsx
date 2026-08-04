@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Article } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { updateMetaTags } from '../../utils/seo';
 import { ResourceCard } from '../Resources/ResourceCard';
 import { SchemaVisualizer } from '../SEO/SchemaVisualizer';
 import { NewsletterCTA } from '../Monetization/NewsletterCTA';
@@ -12,6 +13,17 @@ interface ArticleDetailProps {
 
 export const ArticleDetail: React.FC<ArticleDetailProps> = ({ article }) => {
   const { setActiveTab, resources } = useApp();
+
+  useEffect(() => {
+    updateMetaTags({
+      title: article.title,
+      description: article.metaDescription,
+      canonicalUrl: `${window.location.origin}/?article=${article.slug}`,
+      ogType: 'article',
+      ogImage: article.featuredImage,
+      keywords: [article.category, ...article.tags],
+    });
+  }, [article]);
 
   // Find linked resources
   const linkedResources = resources.filter((r) => article.relatedResourceIds.includes(r.id));

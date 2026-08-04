@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Resource } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
+import { updateMetaTags } from '../../utils/seo';
 import { SaaSMRRCalculator } from './InteractiveRunners/SaaSMRRCalculator';
 import { FreelanceRateCalculator } from './InteractiveRunners/FreelanceRateCalculator';
 import { BreakEvenCalculator } from './InteractiveRunners/BreakEvenCalculator';
@@ -34,6 +35,17 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
   const { setActiveTab, affiliateLinks, resources, recordResourceDownload } = useApp();
   const { isBookmarked, toggleBookmark } = useAuth();
   const bookmarked = isBookmarked(resource.id);
+
+  useEffect(() => {
+    updateMetaTags({
+      title: `${resource.title} - Free Interactive Tool`,
+      description: resource.shortSummary || resource.metaDescription,
+      canonicalUrl: `${window.location.origin}/?resource=${resource.slug}`,
+      ogType: 'product',
+      ogImage: resource.featuredImage,
+      keywords: [resource.type, resource.category, ...resource.tags],
+    });
+  }, [resource]);
 
   // Render matching interactive runner
   const renderRunner = () => {
