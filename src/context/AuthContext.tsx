@@ -71,24 +71,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCurrentUser(null);
   };
 
-  const toggleBookmark = (resourceId: string) => {
-    if (!currentUser) {
-      setLoginModalOpen(true);
-      return;
-    }
-    const exists = currentUser.bookmarks.includes(resourceId);
-    const updatedBookmarks = exists
-      ? currentUser.bookmarks.filter((id) => id !== resourceId)
-      : [...currentUser.bookmarks, resourceId];
+  const [guestBookmarks, setGuestBookmarks] = useState<string[]>(['res-1', 'res-4', 'res-7']);
 
-    setCurrentUser({
-      ...currentUser,
-      bookmarks: updatedBookmarks,
-    });
+  const toggleBookmark = (resourceId: string) => {
+    if (currentUser) {
+      const exists = currentUser.bookmarks.includes(resourceId);
+      const updatedBookmarks = exists
+        ? currentUser.bookmarks.filter((id) => id !== resourceId)
+        : [...currentUser.bookmarks, resourceId];
+
+      setCurrentUser({
+        ...currentUser,
+        bookmarks: updatedBookmarks,
+      });
+    } else {
+      setGuestBookmarks((prev) =>
+        prev.includes(resourceId) ? prev.filter((id) => id !== resourceId) : [...prev, resourceId]
+      );
+    }
   };
 
   const isBookmarked = (resourceId: string) => {
-    return currentUser ? currentUser.bookmarks.includes(resourceId) : false;
+    if (currentUser) {
+      return currentUser.bookmarks.includes(resourceId);
+    }
+    return guestBookmarks.includes(resourceId);
   };
 
   return (

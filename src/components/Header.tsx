@@ -1,26 +1,21 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { useAuth } from '../context/AuthContext';
 import { Logo } from './Common/Logo';
 import {
   Sparkles,
   Search,
   Bookmark,
-  User,
-  Shield,
   Menu,
   X,
   Layers,
   FileText,
   ShoppingBag,
   Bot,
-  LayoutDashboard,
   Globe,
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { activeTab, setActiveTab, setSearchOpen, bookmarks } = useApp();
-  const { currentUser, role, setLoginModalOpen } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -31,10 +26,6 @@ export const Header: React.FC = () => {
     { id: 'ai-workspace', label: 'AI Workspace', icon: <Bot className="w-4 h-4" /> },
     { id: 'sitemap', label: 'SEO Sitemap', icon: <Globe className="w-4 h-4" /> },
   ];
-
-  if (role === 'admin' || role === 'superadmin' || role === 'editor') {
-    navLinks.push({ id: 'admin', label: 'Admin Panel', icon: <LayoutDashboard className="w-4 h-4" /> });
-  }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-xl">
@@ -87,16 +78,6 @@ export const Header: React.FC = () => {
                   {bookmarks.length}
                 </span>
               )}
-            </button>
-
-            {/* Role Badge & Auth */}
-            <button
-              onClick={() => setLoginModalOpen(true)}
-              className="flex items-center gap-1.5 rounded-xl border border-indigo-500/20 bg-indigo-950/30 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-indigo-300 hover:bg-indigo-900/40 transition-all shrink-0"
-              title={`Logged in as ${role}`}
-            >
-              <Shield className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="capitalize hidden sm:inline">{role}</span>
             </button>
 
             {/* Mobile Menu Toggle */}

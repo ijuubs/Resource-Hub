@@ -3,14 +3,12 @@ import { useApp } from './context/AppContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
-import { AuthModal } from './components/AuthModal';
 import { ResourceCard } from './components/Resources/ResourceCard';
 import { ResourceDetail } from './components/Resources/ResourceDetail';
 import { ArticleCard } from './components/Articles/ArticleCard';
 import { ArticleDetail } from './components/Articles/ArticleDetail';
 import { ProductCatalog } from './components/Products/ProductCatalog';
 import { AIWorkspace } from './components/AIWorkspace/AIWorkspace';
-import { AdminDashboard } from './components/Admin/AdminDashboard';
 import { SitemapViewer } from './components/SEO/SitemapViewer';
 import { SchemaMarkup } from './components/SEO/SchemaMarkup';
 import { PrivacyPolicy } from './components/Legal/PrivacyPolicy';
@@ -138,7 +136,6 @@ export function App() {
 
       {/* Global Modals */}
       <GlobalSearchModal />
-      <AuthModal />
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -291,9 +288,6 @@ export function App() {
         ) : activeTab === 'sitemap' ? (
           /* Sitemap Inspector Tab */
           <SitemapViewer />
-        ) : activeTab === 'admin' ? (
-          /* Admin Panel Tab */
-          <AdminDashboard />
         ) : activeTab === 'privacy' ? (
           /* Privacy Policy View */
           <PrivacyPolicy />

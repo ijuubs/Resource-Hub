@@ -28,7 +28,6 @@ export type ActiveTab =
   | 'article-detail'
   | 'products'
   | 'ai-workspace'
-  | 'admin'
   | 'sitemap'
   | 'bookmarks'
   | 'privacy'
@@ -170,8 +169,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setActiveTab('sitemap');
         } else if (pathname === '/bookmarks') {
           setActiveTab('bookmarks');
-        } else if (pathname === '/admin') {
-          setActiveTab('admin');
         } else if (resourceParam) {
           setSelectedResourceSlug(resourceParam);
           setActiveTab('resource-detail');
@@ -204,7 +201,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       case 'about': return '/about';
       case 'sitemap': return '/sitemap';
       case 'bookmarks': return '/bookmarks';
-      case 'admin': return '/admin';
       case 'resource-detail': return resourceSlug ? `/resource/${resourceSlug}` : '/resources';
       case 'article-detail': return articleSlug ? `/article/${articleSlug}` : '/articles';
       case 'home':
