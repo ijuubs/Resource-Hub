@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   showSubtitle?: boolean;
+  compactOnMobile?: boolean;
   onClick?: () => void;
   className?: string;
 }
@@ -11,6 +12,7 @@ interface LogoProps {
 export const Logo: React.FC<LogoProps> = ({
   size = 'md',
   showSubtitle = true,
+  compactOnMobile = false,
   onClick,
   className = '',
 }) => {
@@ -40,7 +42,7 @@ export const Logo: React.FC<LogoProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-3 select-none ${onClick ? 'cursor-pointer group' : ''} ${className}`}
+      className={`flex items-center gap-2 sm:gap-3 select-none shrink-0 ${onClick ? 'cursor-pointer group' : ''} ${className}`}
     >
       {/* Icon Emblem Container with Animated Glow */}
       <div className="relative shrink-0">
@@ -78,7 +80,7 @@ export const Logo: React.FC<LogoProps> = ({
           Resource<span className="text-indigo-500">Hub</span>
         </span>
         {showSubtitle && (
-          <span className={`block ${currentSize.sub} font-mono tracking-widest text-zinc-400 uppercase mt-1 leading-none`}>
+          <span className={`${compactOnMobile ? 'hidden xs:block sm:block' : 'block'} ${currentSize.sub} font-mono tracking-widest text-zinc-400 uppercase mt-1 leading-none`}>
             AI SaaS Platform
           </span>
         )}

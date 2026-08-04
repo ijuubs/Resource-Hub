@@ -105,7 +105,7 @@ export function App() {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden max-w-full w-full">
       {/* Dynamic JSON-LD Structured Data Schema Markup */}
       <SchemaMarkup />
 
@@ -117,7 +117,7 @@ export function App() {
       <AuthModal />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Render Selected Detail View First */}
         {selectedResourceSlug && activeResource ? (
           <ResourceDetail resource={activeResource} />
@@ -280,50 +280,50 @@ export function App() {
             className="space-y-16 pb-16"
           >
             {/* Hero Section */}
-            <div className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-b from-indigo-950/40 via-zinc-900 to-zinc-950 p-8 sm:p-14 text-center space-y-6 shadow-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-4 py-1.5 text-xs font-semibold text-indigo-400 border border-indigo-500/20">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span>AI-Powered Value-First Resource Platform</span>
+            <div className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-b from-indigo-950/40 via-zinc-900 to-zinc-950 p-5 sm:p-14 text-center space-y-6 shadow-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-3.5 py-1.5 text-xs font-semibold text-indigo-400 border border-indigo-500/20 max-w-full">
+                <Sparkles className="w-4 h-4 text-indigo-400 shrink-0" />
+                <span className="truncate">AI-Powered Value-First Resource Platform</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight max-w-4xl mx-auto leading-tight">
+              <h1 className="text-2xl sm:text-5xl md:text-6xl font-black text-white tracking-tight max-w-4xl mx-auto leading-tight break-words">
                 Solve Everyday Tech & Business Problems with <span className="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Free AI Tools</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-sm sm:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
                 Production-ready SaaS calculators, prompt generators, Notion operating systems, and downloadable financial models. Always open value before anything else.
               </p>
 
               {/* Instant Search Bar */}
               <div
                 onClick={() => setSearchOpen(true)}
-                className="max-w-xl mx-auto flex items-center justify-between rounded-2xl border border-zinc-700 bg-zinc-900/90 p-3 shadow-xl hover:border-indigo-500/60 transition-all cursor-pointer"
+                className="max-w-xl mx-auto flex items-center justify-between gap-2 rounded-2xl border border-zinc-700 bg-zinc-900/90 p-2.5 sm:p-3 shadow-xl hover:border-indigo-500/60 transition-all cursor-pointer w-full"
               >
-                <div className="flex items-center gap-3 pl-2 text-zinc-400 text-sm">
-                  <Search className="w-5 h-5 text-indigo-400" />
-                  <span>Search "SaaS MRR Calculator", "Notion", "Cold Email"...</span>
+                <div className="flex items-center gap-2.5 pl-1.5 text-zinc-400 text-xs sm:text-sm min-w-0 flex-1">
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400 shrink-0" />
+                  <span className="truncate">Search "SaaS MRR", "Notion", "Cold Email"...</span>
                 </div>
-                <button className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow">
+                <button className="rounded-xl bg-indigo-600 px-3 sm:px-4 py-2 text-xs font-bold text-white shadow shrink-0">
                   Search Tools
                 </button>
               </div>
 
               {/* Metric stats bar */}
-              <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto border-t border-zinc-800/80 text-xs">
+              <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto border-t border-zinc-800/80 text-xs">
                 <div>
-                  <strong className="text-xl font-bold text-white block">50+</strong>
+                  <strong className="text-lg sm:text-xl font-bold text-white block">50+</strong>
                   <span className="text-zinc-500">Interactive Tools</span>
                 </div>
                 <div>
-                  <strong className="text-xl font-bold text-white block">14,000+</strong>
+                  <strong className="text-lg sm:text-xl font-bold text-white block">14,000+</strong>
                   <span className="text-zinc-500">Active Founders</span>
                 </div>
                 <div>
-                  <strong className="text-xl font-bold text-white block">Gemini 3.6</strong>
+                  <strong className="text-lg sm:text-xl font-bold text-white block">Gemini 3.6</strong>
                   <span className="text-zinc-500">AI Logic Engine</span>
                 </div>
                 <div>
-                  <strong className="text-xl font-bold text-white block">100%</strong>
+                  <strong className="text-lg sm:text-xl font-bold text-white block">100%</strong>
                   <span className="text-zinc-500">Open Value Access</span>
                 </div>
               </div>
