@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="400" height="100">
+  <defs>
+    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="sparkle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e0e7ff" />
+    </linearGradient>
+    <filter id="logo-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#6366f1" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Logo Mark Icon Container -->
+  <g transform="translate(10, 10)">
+    <rect x="0" y="0" width="80" height="80" rx="22" fill="url(#logo-grad)" filter="url(#logo-glow)" />
+    <rect x="1" y="1" width="78" height="78" rx="21" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5" />
+    <!-- Sparkle Mark -->
+    <path d="M 40,16 Q 40,40 64,40 Q 40,40 40,64 Q 40,40 16,40 Q 40,40 40,16 Z" fill="url(#sparkle-grad)" />
+    <path d="M 54,22 Q 54,30 62,30 Q 54,30 54,38 Q 54,30 46,30 Q 54,30 54,22 Z" fill="#ffffff" opacity="0.85" />
+  </g>
+
+  <!-- Typography -->
+  <text x="105" y="55" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="36" fill="#ffffff" letter-spacing="-1">
+    Resource<tspan fill="#6366f1">Hub</tspan>
+  </text>
+  <text x="106" y="76" font-family="'JetBrains Mono', monospace, sans-serif" font-weight="600" font-size="12" fill="#a1a1aa" letter-spacing="3" text-transform="uppercase">
+    AI SAAS PLATFORM
+  </text>
+</svg>

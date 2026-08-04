@@ -16,6 +16,8 @@ import { NewsletterCTA } from './components/Monetization/NewsletterCTA';
 import { AffiliateBox } from './components/Monetization/AffiliateBox';
 import { AdPlaceholder } from './components/Monetization/AdPlaceholder';
 import { PremiumBanner } from './components/Monetization/PremiumBanner';
+import { SkeletonGrid } from './components/Common/Skeletons';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Sparkles,
   Search,
@@ -29,12 +31,15 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle,
+  RefreshCw,
 } from 'lucide-react';
 
 export function App() {
   const {
     activeTab,
     setActiveTab,
+    isLoading,
+    triggerLoading,
     resources,
     articles,
     affiliateLinks,
@@ -46,6 +51,16 @@ export function App() {
 
   const [resourceCategoryFilter, setResourceCategoryFilter] = useState('all');
   const [resourceTypeFilter, setResourceTypeFilter] = useState('all');
+
+  const handleCategoryFilterChange = (catId: string) => {
+    setResourceCategoryFilter(catId);
+    triggerLoading(300);
+  };
+
+  const handleTypeFilterChange = (type: string) => {
+    setResourceTypeFilter(type);
+    triggerLoading(300);
+  };
 
   // Find active resource or article if selected
   const activeResource = resources.find((r) => r.slug === selectedResourceSlug);
@@ -76,27 +91,44 @@ export function App() {
           <ArticleDetail article={activeArticle} />
         ) : activeTab === 'resources' ? (
           /* Resources Directory Tab */
-          <div className="space-y-8 pb-16">
-            <div className="space-y-3">
-              <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest">
-                Interactive Toolkit Directory
-              </span>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                50+ SaaS Calculators, Prompts & Notion Systems
-              </h1>
-              <p className="text-sm text-zinc-400 max-w-2xl">
-                Explore our full library of interactive financial forecasters, engineered AI recipes, and downloadable checklists.
-              </p>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8 pb-16"
+          >
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-2">
+                <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest">
+                  Interactive Toolkit Directory
+                </span>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                  50+ SaaS Calculators, Prompts & Notion Systems
+                </h1>
+                <p className="text-sm text-zinc-400 max-w-2xl">
+                  Explore our full library of interactive financial forecasters, engineered AI recipes, and downloadable checklists.
+                </p>
+              </div>
+
+              <button
+                onClick={() => triggerLoading(400)}
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-4 py-2 text-xs font-semibold text-zinc-300 hover:text-white hover:border-indigo-500 transition-all self-start md:self-auto shrink-0"
+                title="Simulate Data Refresh"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 text-indigo-400 ${isLoading ? 'animate-spin' : ''}`} />
+                <span>Reload Directory</span>
+              </button>
             </div>
 
             {/* Filters Bar */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
               <div className="flex flex-wrap items-center gap-2">
                 <button
-                  onClick={() => setResourceCategoryFilter('all')}
+                  onClick={() => handleCategoryFilterChange('all')}
                   className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all ${
                     resourceCategoryFilter === 'all'
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
                       : 'bg-zinc-800 text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -105,10 +137,10 @@ export function App() {
                 {categories.map((cat) => (
                   <button
                     key={cat.id}
-                    onClick={() => setResourceCategoryFilter(cat.id)}
+                    onClick={() => handleCategoryFilterChange(cat.id)}
                     className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all ${
                       resourceCategoryFilter === cat.id
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
                         : 'bg-zinc-800 text-zinc-400 hover:text-white'
                     }`}
                   >
@@ -119,8 +151,8 @@ export function App() {
 
               <select
                 value={resourceTypeFilter}
-                onChange={(e) => setResourceTypeFilter(e.target.value)}
-                className="rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-1.5 text-xs text-white focus:outline-none"
+                onChange={(e) => handleTypeFilterChange(e.target.value)}
+                className="rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors"
               >
                 <option value="all">Filter by Type (All)</option>
                 <option value="calculator">Calculators</option>
@@ -130,32 +162,68 @@ export function App() {
               </select>
             </div>
 
-            {/* Resources Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredResources.map((res) => (
-                <ResourceCard key={res.id} resource={res} />
-              ))}
-            </div>
-          </div>
+            {/* Resources Grid or Skeleton Screen */}
+            {isLoading ? (
+              <SkeletonGrid type="resource" count={6} />
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.25 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {filteredResources.map((res) => (
+                  <ResourceCard key={res.id} resource={res} />
+                ))}
+              </motion.div>
+            )}
+          </motion.div>
         ) : activeTab === 'articles' ? (
           /* Articles Hub Tab */
-          <div className="space-y-8 pb-16">
-            <div className="space-y-3">
-              <span className="text-xs font-mono text-pink-400 uppercase tracking-widest">Growth Teardowns & Guides</span>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Educational Guides & SaaS Playbooks
-              </h1>
-              <p className="text-sm text-zinc-400 max-w-2xl">
-                In-depth articles covering churn reduction, financial unit economics, cold outreach, and AI prompt engineering.
-              </p>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-8 pb-16"
+          >
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-2">
+                <span className="text-xs font-mono text-pink-400 uppercase tracking-widest">Growth Teardowns & Guides</span>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                  Educational Guides & SaaS Playbooks
+                </h1>
+                <p className="text-sm text-zinc-400 max-w-2xl">
+                  In-depth articles covering churn reduction, financial unit economics, cold outreach, and AI prompt engineering.
+                </p>
+              </div>
+
+              <button
+                onClick={() => triggerLoading(400)}
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-4 py-2 text-xs font-semibold text-zinc-300 hover:text-white hover:border-pink-500 transition-all self-start md:self-auto shrink-0"
+                title="Reload Articles Feed"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 text-pink-400 ${isLoading ? 'animate-spin' : ''}`} />
+                <span>Reload Feed</span>
+              </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articles.map((art) => (
-                <ArticleCard key={art.id} article={art} />
-              ))}
-            </div>
-          </div>
+            {/* Articles Grid or Skeleton Screen */}
+            {isLoading ? (
+              <SkeletonGrid type="article" count={6} />
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.25 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {articles.map((art) => (
+                  <ArticleCard key={art.id} article={art} />
+                ))}
+              </motion.div>
+            )}
+          </motion.div>
         ) : activeTab === 'products' ? (
           /* Digital Products Tab */
           <ProductCatalog />
@@ -170,7 +238,13 @@ export function App() {
           <AdminDashboard />
         ) : (
           /* Default Home View */
-          <div className="space-y-16 pb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-16 pb-16"
+          >
             {/* Hero Section */}
             <div className="relative overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-b from-indigo-950/40 via-zinc-900 to-zinc-950 p-8 sm:p-14 text-center space-y-6 shadow-2xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-4 py-1.5 text-xs font-semibold text-indigo-400 border border-indigo-500/20">
@@ -240,11 +314,15 @@ export function App() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {resources.slice(0, 3).map((res) => (
-                  <ResourceCard key={res.id} resource={res} />
-                ))}
-              </div>
+              {isLoading ? (
+                <SkeletonGrid type="resource" count={3} />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {resources.slice(0, 3).map((res) => (
+                    <ResourceCard key={res.id} resource={res} />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Premium Upgrade Banner */}
@@ -274,16 +352,20 @@ export function App() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {articles.slice(0, 3).map((art) => (
-                  <ArticleCard key={art.id} article={art} />
-                ))}
-              </div>
+              {isLoading ? (
+                <SkeletonGrid type="article" count={3} />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {articles.slice(0, 3).map((art) => (
+                    <ArticleCard key={art.id} article={art} />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Newsletter Subscription CTA */}
             <NewsletterCTA />
-          </div>
+          </motion.div>
         )}
       </main>
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { subscribeNewsletter } from '../services/api';
+import { Logo } from './Common/Logo';
 import { Sparkles, Mail, CheckCircle, ArrowRight, ShieldCheck, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -21,17 +22,7 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Col 1 Brand */}
           <div className="space-y-4 md:col-span-1">
-            <div
-              onClick={() => setActiveTab('home')}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white">
-                <Sparkles className="w-4 h-4 fill-white" />
-              </div>
-              <span className="text-base font-black text-white">
-                Resource<span className="text-indigo-500">Hub</span>
-              </span>
-            </div>
+            <Logo size="md" onClick={() => setActiveTab('home')} />
             <p className="text-xs text-zinc-400 leading-relaxed">
               The premier AI-powered platform for SaaS calculators, Notion operating systems, prompt formulas, and growth playbooks.
             </p>

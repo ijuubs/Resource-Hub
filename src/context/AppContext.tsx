@@ -35,6 +35,8 @@ export type ActiveTab =
 interface AppContextType {
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  isLoading: boolean;
+  triggerLoading: (durationMs?: number) => void;
   resources: Resource[];
   articles: Article[];
   products: DigitalProduct[];
@@ -80,7 +82,15 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [resources, setResources] = useState<Resource[]>(INITIAL_RESOURCES);
+
+  const triggerLoading = (durationMs: number = 400) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, durationMs);
+  };
   const [articles, setArticles] = useState<Article[]>(INITIAL_ARTICLES);
   const [products, setProducts] = useState<DigitalProduct[]>(INITIAL_PRODUCTS);
   const [categories] = useState<Category[]>(INITIAL_CATEGORIES);
@@ -299,6 +309,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const bookmarks = ['res-1', 'res-4', 'res-7'];
 
   const handleSetActiveTab = (tab: ActiveTab) => {
+    triggerLoading(350);
     setActiveTab(tab);
     if (tab !== 'resource-detail') {
       setSelectedResourceSlug(null);
@@ -313,6 +324,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         activeTab,
         setActiveTab: handleSetActiveTab,
+        isLoading,
+        triggerLoading,
         resources,
         articles,
         products,
