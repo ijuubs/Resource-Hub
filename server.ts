@@ -44,13 +44,117 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+import * as admin from 'firebase-admin';
+
+// Initialize Firebase Admin securely without crashing if credentials are missing
+try {
+  if (!admin.apps.length) {
+    admin.initializeApp();
+  }
+} catch (e) {
+  console.error("Firebase Admin initialization failed. Ensure Firestore is configured.");
+}
+
 // Search Engine SEO & Google Search Console Endpoints
-app.get("/sitemap.xml", (req, res) => {
+app.get("/sitemap.xml", async (req, res) => {
   const host = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
   const rawProto = (req.headers['x-forwarded-proto'] as string) || 'https';
   const proto = rawProto.split(',')[0].trim();
   const baseUrl = `${proto}://${host}`;
   const today = new Date().toISOString().split('T')[0];
+
+  let dynamicResourceUrls = '';
+  let dynamicArticleUrls = '';
+
+  try {
+    const db = admin.firestore();
+    
+    // Fetch Resources
+    const resourcesSnapshot = await db.collection('resources').get();
+    resourcesSnapshot.forEach((doc) => {
+      const slug = doc.data().slug || doc.id;
+      dynamicResourceUrls += `
+  <url>
+    <loc>${baseUrl}/resource/${slug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    });
+
+    // Fetch Articles
+    const articlesSnapshot = await db.collection('articles').get();
+    articlesSnapshot.forEach((doc) => {
+      const slug = doc.data().slug || doc.id;
+      dynamicArticleUrls += `
+  <url>
+    <loc>${baseUrl}/article/${slug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    });
+  } catch (error) {
+    console.warn("Firestore fetch failed, falling back to static urls.", error);
+    // Fallback static URLs if Firestore is unconfigured or errors
+    dynamicResourceUrls = `
+  <url>
+    <loc>${baseUrl}/resource/saas-mrr-growth-calculator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/ai-prompt-engineering-playbook-2026</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/b2b-cold-email-sequence-generator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/freelance-hourly-rate-calculator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/notion-saas-operating-system</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+  
+    dynamicArticleUrls = `
+  <url>
+    <loc>${baseUrl}/article/scaling-b2b-saas-from-0-to-1m-mrr</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/article/google-adsense-monetization-guide-2026</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/article/building-production-ai-wrappers-with-gemini-3-6</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/article/bootstrap-vs-venture-capital-tech-founder-guide</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+  }
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -112,63 +216,9 @@ app.get("/sitemap.xml", (req, res) => {
     <priority>0.6</priority>
   </url>
 
-  <!-- High-Value Interactive Resources -->
-  <url>
-    <loc>${baseUrl}/resource/saas-mrr-growth-calculator</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/resource/ai-prompt-engineering-playbook-2026</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/resource/b2b-cold-email-sequence-generator</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/resource/freelance-hourly-rate-calculator</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/resource/notion-saas-operating-system</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <!-- High-Value Interactive Resources -->${dynamicResourceUrls}
 
-  <!-- Growth Articles & Guides -->
-  <url>
-    <loc>${baseUrl}/article/scaling-b2b-saas-from-0-to-1m-mrr</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/article/google-adsense-monetization-guide-2026</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/article/building-production-ai-wrappers-with-gemini-3-6</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/article/bootstrap-vs-venture-capital-tech-founder-guide</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <!-- Growth Articles & Guides -->${dynamicArticleUrls}
 </urlset>`;
 
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
