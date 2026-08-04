@@ -124,12 +124,55 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const handleUrlState = () => {
       try {
+        const rawPathname = window.location.pathname;
+        const pathname = rawPathname.length > 1 && rawPathname.endsWith('/')
+          ? rawPathname.slice(0, -1)
+          : rawPathname;
         const params = new URLSearchParams(window.location.search);
         const tabParam = params.get('tab') as ActiveTab | null;
         const resourceParam = params.get('resource');
         const articleParam = params.get('article');
 
-        if (resourceParam) {
+        if (pathname.startsWith('/resource/')) {
+          const slug = pathname.replace('/resource/', '');
+          if (slug) {
+            setSelectedResourceSlug(slug);
+            setActiveTab('resource-detail');
+            return;
+          }
+        }
+
+        if (pathname.startsWith('/article/')) {
+          const slug = pathname.replace('/article/', '');
+          if (slug) {
+            setSelectedArticleSlug(slug);
+            setActiveTab('article-detail');
+            return;
+          }
+        }
+
+        // Clean pathname routes
+        if (pathname === '/resources') {
+          setActiveTab('resources');
+        } else if (pathname === '/articles') {
+          setActiveTab('articles');
+        } else if (pathname === '/products') {
+          setActiveTab('products');
+        } else if (pathname === '/ai-workspace') {
+          setActiveTab('ai-workspace');
+        } else if (pathname === '/privacy') {
+          setActiveTab('privacy');
+        } else if (pathname === '/terms') {
+          setActiveTab('terms');
+        } else if (pathname === '/about') {
+          setActiveTab('about');
+        } else if (pathname === '/sitemap') {
+          setActiveTab('sitemap');
+        } else if (pathname === '/bookmarks') {
+          setActiveTab('bookmarks');
+        } else if (pathname === '/admin') {
+          setActiveTab('admin');
+        } else if (resourceParam) {
           setSelectedResourceSlug(resourceParam);
           setActiveTab('resource-detail');
         } else if (articleParam) {
@@ -137,6 +180,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setActiveTab('article-detail');
         } else if (tabParam) {
           setActiveTab(tabParam);
+        } else if (pathname === '' || pathname === '/') {
+          setActiveTab('home');
         }
       } catch (e) {
         // Fallback for isolated iframe environments
@@ -147,6 +192,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     window.addEventListener('popstate', handleUrlState);
     return () => window.removeEventListener('popstate', handleUrlState);
   }, []);
+
+  const getPathForTab = (tab: ActiveTab, resourceSlug?: string | null, articleSlug?: string | null): string => {
+    switch (tab) {
+      case 'resources': return '/resources';
+      case 'articles': return '/articles';
+      case 'products': return '/products';
+      case 'ai-workspace': return '/ai-workspace';
+      case 'privacy': return '/privacy';
+      case 'terms': return '/terms';
+      case 'about': return '/about';
+      case 'sitemap': return '/sitemap';
+      case 'bookmarks': return '/bookmarks';
+      case 'admin': return '/admin';
+      case 'resource-detail': return resourceSlug ? `/resource/${resourceSlug}` : '/resources';
+      case 'article-detail': return articleSlug ? `/article/${articleSlug}` : '/articles';
+      case 'home':
+      default: return '/';
+    }
+  };
 
   const navigateToResource = (slug: string) => {
     setSelectedResourceSlug(slug);
@@ -159,10 +223,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
-      const url = new URL(window.location.href);
-      url.searchParams.set('tab', 'resource-detail');
-      url.searchParams.set('resource', slug);
-      window.history.pushState({}, '', url.toString());
+      window.history.pushState({}, '', `/resource/${slug}`);
     } catch (e) {}
   };
 
@@ -176,10 +237,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
-      const url = new URL(window.location.href);
-      url.searchParams.set('tab', 'article-detail');
-      url.searchParams.set('article', slug);
-      window.history.pushState({}, '', url.toString());
+      window.history.pushState({}, '', `/article/${slug}`);
     } catch (e) {}
   };
 
@@ -362,17 +420,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
-      const url = new URL(window.location.href);
-      if (tab === 'home') {
-        url.searchParams.delete('tab');
-        url.searchParams.delete('resource');
-        url.searchParams.delete('article');
-      } else {
-        url.searchParams.set('tab', tab);
-        url.searchParams.delete('resource');
-        url.searchParams.delete('article');
-      }
-      window.history.pushState({}, '', url.toString());
+      const cleanPath = getPathForTab(tab, selectedResourceSlug, selectedArticleSlug);
+      window.history.pushState({}, '', cleanPath);
     } catch (e) {}
   };
 

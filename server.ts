@@ -54,6 +54,7 @@ app.get("/sitemap.xml", (req, res) => {
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Primary Pages -->
   <url>
     <loc>${baseUrl}/</loc>
     <lastmod>${today}</lastmod>
@@ -61,50 +62,119 @@ app.get("/sitemap.xml", (req, res) => {
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=resources</loc>
+    <loc>${baseUrl}/resources</loc>
     <lastmod>${today}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=articles</loc>
+    <loc>${baseUrl}/articles</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=products</loc>
+    <loc>${baseUrl}/products</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=ai-workspace</loc>
+    <loc>${baseUrl}/ai-workspace</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=privacy</loc>
+    <loc>${baseUrl}/sitemap</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Legal & Transparency Pages -->
+  <url>
+    <loc>${baseUrl}/privacy</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=terms</loc>
+    <loc>${baseUrl}/terms</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>${baseUrl}/?tab=about</loc>
+    <loc>${baseUrl}/about</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+
+  <!-- High-Value Interactive Resources -->
+  <url>
+    <loc>${baseUrl}/resource/saas-mrr-growth-calculator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/ai-prompt-engineering-playbook-2026</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/b2b-cold-email-sequence-generator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/freelance-hourly-rate-calculator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/resource/notion-saas-operating-system</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Growth Articles & Guides -->
+  <url>
+    <loc>${baseUrl}/article/scaling-b2b-saas-from-0-to-1m-mrr</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/article/google-adsense-monetization-guide-2026</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/article/building-production-ai-wrappers-with-gemini-3-6</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/article/bootstrap-vs-venture-capital-tech-founder-guide</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>`;
 
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.setHeader("X-Content-Type-Options", "nosniff");
   res.status(200).send(sitemapXml.trim());
 });
 
@@ -127,11 +197,14 @@ Sitemap: ${baseUrl}/sitemap.xml
 `;
 
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Cache-Control", "public, max-age=3600");
   res.status(200).send(robotsTxt.trim());
 });
 
 app.get("/ads.txt", (req, res) => {
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.sendFile(path.join(process.cwd(), "public", "ads.txt"));
 });
 
