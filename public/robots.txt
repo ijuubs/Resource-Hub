@@ -1,0 +1,10 @@
+# Allow all search engines and Googlebot
+User-agent: *
+Allow: /
+
+# Google AdSense Crawler
+User-agent: Mediapartners-Google
+Allow: /
+
+# Sitemap URL
+Sitemap: https://resource-hub-blond.vercel.app/sitemap.xml

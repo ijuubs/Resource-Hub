@@ -30,7 +30,10 @@ export type ActiveTab =
   | 'ai-workspace'
   | 'admin'
   | 'sitemap'
-  | 'bookmarks';
+  | 'bookmarks'
+  | 'privacy'
+  | 'terms'
+  | 'about';
 
 interface AppContextType {
   activeTab: ActiveTab;

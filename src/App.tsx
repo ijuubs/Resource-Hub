@@ -13,6 +13,10 @@ import { AIWorkspace } from './components/AIWorkspace/AIWorkspace';
 import { AdminDashboard } from './components/Admin/AdminDashboard';
 import { SitemapViewer } from './components/SEO/SitemapViewer';
 import { SchemaMarkup } from './components/SEO/SchemaMarkup';
+import { PrivacyPolicy } from './components/Legal/PrivacyPolicy';
+import { TermsOfService } from './components/Legal/TermsOfService';
+import { AboutUs } from './components/Legal/AboutUs';
+import { CookieConsent } from './components/Legal/CookieConsent';
 import { updateMetaTags } from './utils/seo';
 import { NewsletterCTA } from './components/Monetization/NewsletterCTA';
 import { AffiliateBox } from './components/Monetization/AffiliateBox';
@@ -100,6 +104,26 @@ export function App() {
       updateMetaTags({
         title: 'AI Prompt Engineering Studio - ResourceHub',
         description: 'Test, optimize, and generate AI prompts for Gemini, GPT-4, and Claude models.',
+      });
+    } else if (activeTab === 'privacy') {
+      updateMetaTags({
+        title: 'Privacy Policy & GDPR Data Rights - ResourceHub',
+        description: 'Learn how ResourceHub respects your privacy, handles cookies, and complies with Google AdSense data requirements.',
+      });
+    } else if (activeTab === 'terms') {
+      updateMetaTags({
+        title: 'Terms of Service & User Agreement - ResourceHub',
+        description: 'Read the official Terms of Service, user licensing, and legal disclaimers for using ResourceHub.',
+      });
+    } else if (activeTab === 'about') {
+      updateMetaTags({
+        title: 'About ResourceHub - Platform Mission & Editorial Standards',
+        description: 'Learn about ResourceHub, our team, open-value mission, and quality standards for SaaS tools.',
+      });
+    } else if (activeTab === 'sitemap') {
+      updateMetaTags({
+        title: 'XML Sitemap & Route Inspector - ResourceHub',
+        description: 'Inspect canonical site structure, JSON-LD schemas, and indexable endpoints for Google Search Console.',
       });
     }
   }, [activeTab]);
@@ -270,6 +294,15 @@ export function App() {
         ) : activeTab === 'admin' ? (
           /* Admin Panel Tab */
           <AdminDashboard />
+        ) : activeTab === 'privacy' ? (
+          /* Privacy Policy View */
+          <PrivacyPolicy />
+        ) : activeTab === 'terms' ? (
+          /* Terms of Service View */
+          <TermsOfService />
+        ) : activeTab === 'about' ? (
+          /* About Us View */
+          <AboutUs />
         ) : (
           /* Default Home View */
           <motion.div
@@ -405,6 +438,9 @@ export function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Sticky GDPR & AdSense Cookie Consent Banner */}
+      <CookieConsent />
     </div>
   );
 }

@@ -118,14 +118,23 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500 font-mono">
+        <div className="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500 font-mono flex-wrap">
           <div>© 2026 ResourceHub SaaS Platform. All rights reserved.</div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <button onClick={() => setActiveTab('about')} className="hover:text-zinc-300">
+              About Us
+            </button>
+            <button onClick={() => setActiveTab('privacy')} className="hover:text-zinc-300">
+              Privacy Policy
+            </button>
+            <button onClick={() => setActiveTab('terms')} className="hover:text-zinc-300">
+              Terms of Service
+            </button>
             <button onClick={() => setActiveTab('sitemap')} className="hover:text-zinc-300">
               Sitemap.xml
             </button>
             <button onClick={() => setActiveTab('admin')} className="hover:text-zinc-300">
-              Admin Dashboard
+              Admin
             </button>
           </div>
         </div>
