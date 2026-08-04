@@ -57,7 +57,8 @@ try {
 
 // Search Engine SEO & Google Search Console Endpoints
 app.get("/sitemap.xml", async (req, res) => {
-  const host = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
+  const rawHost = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
+  const host = (rawHost as string).split(',')[0].trim();
   const rawProto = (req.headers['x-forwarded-proto'] as string) || 'https';
   const proto = rawProto.split(',')[0].trim();
   const baseUrl = `${proto}://${host}`;
@@ -72,7 +73,7 @@ app.get("/sitemap.xml", async (req, res) => {
     // Fetch Resources
     const resourcesSnapshot = await db.collection('resources').get();
     resourcesSnapshot.forEach((doc) => {
-      const slug = doc.data().slug || doc.id;
+      const slug = (doc.data().slug || doc.id).replace(/const slug = doc.data().slug || doc.id;/g, '&amp;');
       dynamicResourceUrls += `
   <url>
     <loc>${baseUrl}/resource/${slug}</loc>
@@ -85,7 +86,7 @@ app.get("/sitemap.xml", async (req, res) => {
     // Fetch Articles
     const articlesSnapshot = await db.collection('articles').get();
     articlesSnapshot.forEach((doc) => {
-      const slug = doc.data().slug || doc.id;
+      const slug = (doc.data().slug || doc.id).replace(/const slug = doc.data().slug || doc.id;/g, '&amp;');
       dynamicArticleUrls += `
   <url>
     <loc>${baseUrl}/article/${slug}</loc>
@@ -189,12 +190,6 @@ app.get("/sitemap.xml", async (req, res) => {
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
-    <loc>${baseUrl}/sitemap</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
 
   <!-- Legal & Transparency Pages -->
   <url>
@@ -221,7 +216,7 @@ app.get("/sitemap.xml", async (req, res) => {
   <!-- Growth Articles & Guides -->${dynamicArticleUrls}
 </urlset>`;
 
-  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Content-Type", "text/xml");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "public, max-age=3600");
   res.setHeader("X-Content-Type-Options", "nosniff");
@@ -229,7 +224,8 @@ app.get("/sitemap.xml", async (req, res) => {
 });
 
 app.get("/robots.txt", (req, res) => {
-  const host = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
+  const rawHost = req.headers['x-forwarded-host'] || req.headers.host || 'resource-hub-blond.vercel.app';
+  const host = (rawHost as string).split(',')[0].trim();
   const rawProto = (req.headers['x-forwarded-proto'] as string) || 'https';
   const proto = rawProto.split(',')[0].trim();
   const baseUrl = `${proto}://${host}`;
