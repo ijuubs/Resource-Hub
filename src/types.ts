@@ -85,10 +85,11 @@ export interface Resource {
   updatedAt: string;
   // Custom metadata for interactive runner configuration
   interactiveConfig?: {
-    toolType?: 'mrr-calculator' | 'investment-calculator' | 'mortgage-calculator' | 'website-roi-calculator' | 'freelance-calculator' | 'breakeven-calculator' | 'prompt-generator' | 'email-writer' | 'notion-template' | 'checklist-runner';
+    toolType?: 'mrr-calculator' | 'investment-calculator' | 'mortgage-calculator' | 'website-roi-calculator' | 'freelance-calculator' | 'breakeven-calculator' | 'prompt-generator' | 'email-writer' | 'notion-template' | 'checklist-runner' | 'cac-ltv-calculator' | 'ad-revenue-calculator' | 'salary-tax-calculator' | 'seo-generator-tool';
     defaultState?: Record<string, any>;
     checklistItems?: { id: string; text: string; category?: string }[];
     promptTemplates?: { title: string; prompt: string; targetModel?: string }[];
+    [key: string]: any;
   };
 }
 

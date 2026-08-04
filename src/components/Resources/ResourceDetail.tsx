@@ -1,6 +1,10 @@
 import { InvestmentGrowthCalculator } from './InteractiveRunners/InvestmentGrowthCalculator';
 import { MortgageCalculator } from './InteractiveRunners/MortgageCalculator';
 import { WebsiteROICalculator } from './InteractiveRunners/WebsiteROICalculator';
+import { CACAndLTVCalculator } from './InteractiveRunners/CACAndLTVCalculator';
+import { AdRevenueCalculator } from './InteractiveRunners/AdRevenueCalculator';
+import { SalaryTaxCalculator } from './InteractiveRunners/SalaryTaxCalculator';
+import { SEOContentGeneratorTool } from './InteractiveRunners/SEOContentGeneratorTool';
 import React, { useEffect } from 'react';
 import { Resource } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -65,6 +69,14 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
         return <MortgageCalculator initialConfig={resource.interactiveConfig} />;
       case 'website-roi-calculator':
         return <WebsiteROICalculator initialConfig={resource.interactiveConfig} />;
+      case 'cac-ltv-calculator':
+        return <CACAndLTVCalculator initialConfig={resource.interactiveConfig} />;
+      case 'ad-revenue-calculator':
+        return <AdRevenueCalculator initialConfig={resource.interactiveConfig} />;
+      case 'salary-tax-calculator':
+        return <SalaryTaxCalculator initialConfig={resource.interactiveConfig} />;
+      case 'seo-generator-tool':
+        return <SEOContentGeneratorTool initialConfig={resource.interactiveConfig} />;
       case 'mrr-calculator':
         return <SaaSMRRCalculator initialConfig={resource.interactiveConfig} />;
       case 'freelance-calculator':
