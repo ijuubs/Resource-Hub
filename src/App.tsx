@@ -142,10 +142,10 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {/* Render Selected Detail View First */}
-        {selectedResourceSlug && activeResource ? (
+        {/* Render Selected View */}
+        {activeTab === 'resource-detail' && activeResource ? (
           <ResourceDetail resource={activeResource} />
-        ) : selectedArticleSlug && activeArticle ? (
+        ) : activeTab === 'article-detail' && activeArticle ? (
           <ArticleDetail article={activeArticle} />
         ) : activeTab === 'resources' ? (
           /* Resources Directory Tab */

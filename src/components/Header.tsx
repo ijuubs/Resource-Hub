@@ -113,24 +113,56 @@ export const Header: React.FC = () => {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-800 bg-zinc-950 p-4 space-y-2">
-          {navLinks.map((link) => (
+        <div className="md:hidden border-b border-zinc-800 bg-zinc-950 p-4 space-y-3">
+          <div className="space-y-1">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => {
+                  setActiveTab(link.id as any);
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 rounded-xl p-3 text-xs font-semibold text-left transition-all ${
+                  activeTab === link.id
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
+                }`}
+              >
+                {link.icon}
+                <span>{link.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="pt-3 border-t border-zinc-900 grid grid-cols-3 gap-2 text-center text-[11px] font-medium text-zinc-400">
             <button
-              key={link.id}
               onClick={() => {
-                setActiveTab(link.id as any);
+                setActiveTab('about');
                 setMobileMenuOpen(false);
               }}
-              className={`w-full flex items-center gap-3 rounded-xl p-3 text-xs font-semibold text-left transition-all ${
-                activeTab === link.id
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
-              }`}
+              className="p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 hover:text-white hover:border-zinc-700"
             >
-              {link.icon}
-              <span>{link.label}</span>
+              About Us
             </button>
-          ))}
+            <button
+              onClick={() => {
+                setActiveTab('privacy');
+                setMobileMenuOpen(false);
+              }}
+              className="p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 hover:text-white hover:border-zinc-700"
+            >
+              Privacy Policy
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('terms');
+                setMobileMenuOpen(false);
+              }}
+              className="p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 hover:text-white hover:border-zinc-700"
+            >
+              Terms of Use
+            </button>
+          </div>
         </div>
       )}
     </header>

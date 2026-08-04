@@ -121,6 +121,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
+
+    const handleUrlState = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const tabParam = params.get('tab') as ActiveTab | null;
+        const resourceParam = params.get('resource');
+        const articleParam = params.get('article');
+
+        if (resourceParam) {
+          setSelectedResourceSlug(resourceParam);
+          setActiveTab('resource-detail');
+        } else if (articleParam) {
+          setSelectedArticleSlug(articleParam);
+          setActiveTab('article-detail');
+        } else if (tabParam) {
+          setActiveTab(tabParam);
+        }
+      } catch (e) {
+        // Fallback for isolated iframe environments
+      }
+    };
+
+    handleUrlState();
+    window.addEventListener('popstate', handleUrlState);
+    return () => window.removeEventListener('popstate', handleUrlState);
   }, []);
 
   const navigateToResource = (slug: string) => {
@@ -132,6 +157,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prev.map((res) => (res.slug === slug ? { ...res, viewsCount: res.viewsCount + 1 } : res))
     );
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', 'resource-detail');
+      url.searchParams.set('resource', slug);
+      window.history.pushState({}, '', url.toString());
+    } catch (e) {}
   };
 
   const navigateToArticle = (slug: string) => {
@@ -142,6 +174,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prev.map((art) => (art.slug === slug ? { ...art, viewsCount: art.viewsCount + 1 } : art))
     );
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', 'article-detail');
+      url.searchParams.set('article', slug);
+      window.history.pushState({}, '', url.toString());
+    } catch (e) {}
   };
 
   const setCategoryFilter = (categorySlug: string | null) => {
@@ -320,6 +359,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (tab !== 'article-detail') {
       setSelectedArticleSlug(null);
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      const url = new URL(window.location.href);
+      if (tab === 'home') {
+        url.searchParams.delete('tab');
+        url.searchParams.delete('resource');
+        url.searchParams.delete('article');
+      } else {
+        url.searchParams.set('tab', tab);
+        url.searchParams.delete('resource');
+        url.searchParams.delete('article');
+      }
+      window.history.pushState({}, '', url.toString());
+    } catch (e) {}
   };
 
   return (
