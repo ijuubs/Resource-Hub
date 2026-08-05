@@ -5,6 +5,10 @@ import { CACAndLTVCalculator } from './InteractiveRunners/CACAndLTVCalculator';
 import { AdRevenueCalculator } from './InteractiveRunners/AdRevenueCalculator';
 import { SalaryTaxCalculator } from './InteractiveRunners/SalaryTaxCalculator';
 import { SEOContentGeneratorTool } from './InteractiveRunners/SEOContentGeneratorTool';
+import { PDFInvoiceGeneratorTool } from './InteractiveRunners/PDFInvoiceGeneratorTool';
+import { PDFMarkdownConverterTool } from './InteractiveRunners/PDFMarkdownConverterTool';
+import { DevToolsRunner } from './InteractiveRunners/DevToolsRunner';
+import { DesignToolsRunner } from './InteractiveRunners/DesignToolsRunner';
 import React, { useEffect } from 'react';
 import { Resource } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -77,6 +81,24 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ resource }) => {
         return <SalaryTaxCalculator initialConfig={resource.interactiveConfig} />;
       case 'seo-generator-tool':
         return <SEOContentGeneratorTool initialConfig={resource.interactiveConfig} />;
+      case 'pdf-invoice-generator':
+        return <PDFInvoiceGeneratorTool initialConfig={resource.interactiveConfig} />;
+      case 'pdf-markdown-converter':
+        return <PDFMarkdownConverterTool initialConfig={resource.interactiveConfig} />;
+      case 'json-yaml-converter':
+      case 'sql-formatter-tool':
+      case 'cron-parser-tool':
+      case 'unix-timestamp-tool':
+      case 'jwt-decoder-tool':
+      case 'base64-hash-uuid-tool':
+      case 'regex-tester-tool':
+      case 'diff-checker-tool':
+      case 'text-case-converter':
+        return <DevToolsRunner toolType={resource.interactiveConfig.toolType} initialConfig={resource.interactiveConfig} />;
+      case 'wcag-color-contrast-tool':
+      case 'image-compressor-converter':
+      case 'opengraph-card-generator':
+        return <DesignToolsRunner toolType={resource.interactiveConfig.toolType} initialConfig={resource.interactiveConfig} />;
       case 'mrr-calculator':
         return <SaaSMRRCalculator initialConfig={resource.interactiveConfig} />;
       case 'freelance-calculator':

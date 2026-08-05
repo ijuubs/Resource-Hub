@@ -85,7 +85,7 @@ export interface Resource {
   updatedAt: string;
   // Custom metadata for interactive runner configuration
   interactiveConfig?: {
-    toolType?: 'mrr-calculator' | 'investment-calculator' | 'mortgage-calculator' | 'website-roi-calculator' | 'freelance-calculator' | 'breakeven-calculator' | 'prompt-generator' | 'email-writer' | 'notion-template' | 'checklist-runner' | 'cac-ltv-calculator' | 'ad-revenue-calculator' | 'salary-tax-calculator' | 'seo-generator-tool';
+    toolType?: 'mrr-calculator' | 'investment-calculator' | 'mortgage-calculator' | 'website-roi-calculator' | 'freelance-calculator' | 'breakeven-calculator' | 'prompt-generator' | 'email-writer' | 'notion-template' | 'checklist-runner' | 'cac-ltv-calculator' | 'ad-revenue-calculator' | 'salary-tax-calculator' | 'seo-generator-tool' | 'pdf-invoice-generator' | 'pdf-markdown-converter' | 'json-yaml-converter' | 'sql-formatter-tool' | 'cron-parser-tool' | 'unix-timestamp-tool' | 'jwt-decoder-tool' | 'base64-hash-uuid-tool' | 'regex-tester-tool' | 'diff-checker-tool' | 'text-case-converter' | 'wcag-color-contrast-tool' | 'image-compressor-converter' | 'opengraph-card-generator';
     defaultState?: Record<string, any>;
     checklistItems?: { id: string; text: string; category?: string }[];
     promptTemplates?: { title: string; prompt: string; targetModel?: string }[];
